@@ -763,6 +763,28 @@ export default class Dropzone extends Emitter {
   }
 
   addFile(file) {
+    if (this.options.denyDuplicates) {
+      let fileAlreadyExists = false;
+      // using every over foreach, so we can stop the loop if we find a duplicate
+      this.files.every(item => {
+        if (
+          item.name === file.name &&
+          item.size === file.size &&
+          item.lastModified.toString() === file.lastModified.toString()
+        ) {
+          fileAlreadyExists = true;
+          return false;
+        }
+
+        return true;
+      });
+
+      if (fileAlreadyExists) {
+        Dropzone.alert(this.options.dictDuplicateFiles);
+        return;
+      }
+    }
+
     file.upload = {
       uuid: Dropzone.uuidv4(),
       progress: 0,
@@ -1963,6 +1985,11 @@ Dropzone.confirm = function (question, accepted, rejected) {
     return rejected();
   }
 };
+
+// The default implementation just uses `window.alert`
+Dropzone.alert = function(message) {
+  window.alert(message);
+}
 
 // Validates the mime type like this:
 //

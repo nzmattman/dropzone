@@ -364,6 +364,17 @@ let defaultOptions = {
    * `b` for bytes.
    */
   dictFileSizeUnits: { tb: "TB", gb: "GB", mb: "MB", kb: "KB", b: "b" },
+
+  /**
+   * Displayed in the alert fired if a duplicate file exists
+   */
+  dictDuplicateFiles: 'File already exists',
+
+  /**
+   * Set this to `true` if you don't want duplicate files.
+   */
+  denyDuplicates: false,
+
   /**
    * Called when dropzone initialized
    * You can add event listeners here
